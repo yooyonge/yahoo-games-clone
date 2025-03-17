@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Yahoo! Games</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <style>
+    .game-card {
+      position: relative;
+      overflow: hidden;
+      border-radius: 0.75rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      border: 1px solid #eee;
+    }
+    .game-card-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.7), rgba(0,0,0,0.2), transparent);
+      opacity: 0.5;
+      transition: opacity 0.3s;
+      z-index: 10;
+    }
+    .game-card:hover .game-card-overlay {
+      opacity: 0.7;
+    }
+    .game-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s;
+    }
+    .game-card:hover img {
+      transform: scale(1.05);
+    }
+    .game-card-content {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      padding: 0.75rem;
+      z-index: 20;
+    }
+    .side-nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.25rem;
+      padding: 0.25rem 0.5rem;
+      color: #6b7280;
+      transition: color 0.3s;
+    }
+    .side-nav-item:hover {
+      color: #2563eb;
+    }
+    .side-nav-label {
+      font-size: 0.75rem;
+    }
+    /* New styles for right-side navigation */
+    .right-side-nav {
+      position: sticky;
+      top: 1rem;
+      height: calc(100vh - 2rem);
+      border-left: 1px solid #e5e7eb;
+    }
+    html {
+      scroll-behavior: smooth; /* Add smooth scrolling */
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-white text-gray-900">
+  <!-- Header -->
+  <header class="border-b border-gray-200 px-4 py-3 bg-white shadow-sm">
+    <div class="container mx-auto flex items-center justify-between">
+      <a href="/" class="flex items-center gap-1">
+        <span class="text-xl font-bold text-gray-900">yahoo!</span>
+        <span class="text-xl font-bold text-blue-600">games</span>
+      </a>
+
+      <div class="relative mx-4 flex-1 max-w-md">
+        <div class="relative">
+          <input
+            type="search"
+            placeholder="Search in Games"
+            class="w-full rounded-full bg-gray-100 px-4 py-2 pr-10 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 border border-gray-300"
+          >
+          <button class="absolute right-1 top-1/2 transform -translate-y-1/2 text-gray-500 p-1">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg>
+          </button>
+        </div>
+      </div>
+
+      <nav class="hidden md:flex items-center gap-6">
+        <a href="#" class="text-sm hover:text-blue-600">News</a>
+        <a href="#" class="text-sm hover:text-blue-600">Finance</a>
+        <a href="#" class="text-sm hover:text-blue-600">Sports</a>
+        <div class="relative group">
+          <button class="text-sm hover:text-blue-600 flex items-center gap-1">
+            More
+            <span class="text-xs">▼</span>
+          </button>
+        </div>
+      </nav>
+
+      <div class="flex items-center gap-2">
+        <button class="hidden sm:flex items-center gap-1 rounded-full border border-blue-500 px-3 py-1 text-sm text-blue-600">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg>
+          <span>Mail</span>
+        </button>
+        <button class="rounded-full bg-gray-900 text-white hover:bg-gray-800 px-3 py-1 text-sm">
+          Sign in
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="container mx-auto flex">
+    <!-- Main Content - Now comes first in the order -->
+    <main class="flex-1 p-6">
+      <!-- Featured Section -->
+      <div id="discover-section" class="mb-12">
+        <div class="flex items-center gap-2 mb-4">
+          <span class="text-blue-600">★</span>
+          <h2 class="text-lg font-medium">Featured</h2>
+        </div>
+
+        <h1 class="text-5xl font-bold mb-1">
+          Games
+          <br>
+          for you
+        </h1>
+        <p class="text-sm text-gray-500 mb-4">Games provided by Yahoo partners</p>
+
+        <button class="rounded-full px-6 py-2 border border-gray-300 text-sm hover:bg-gray-100">
+          See categories
+        </button>
+      </div>
+
+      <!-- Featured Games Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-12">
+        <!-- Large Game Card 1 -->
+        <div class="game-card md:row-span-2">
+          <div class="game-card-overlay"></div>
+          <img src="https://placehold.co/300x400/png" alt="Bird Word Mahjong">
+          <div class="game-card-content">
+            <div class="flex items-center gap-1">
+              <span class="text-red-500 text-xs">★</span>
+              <span class="text-xs text-gray-200">Masque</span>
+            </div>
+            <h3 class="text-white font-medium">Bird Word Mahjong</h3>
+          </div>
+        </div>
+
+        <!-- Large Game Card 2 -->
+        <div class="game-card md:row-span-2">
+          <div class="game-card-overlay"></div>
+          <img src="https://placehold.co/300x400/png" alt="Lucky O'Wilds">
+          <div class="game-card-content">
+            <div class="flex items-center gap-1">
+              <span class="text-red-500 text-xs">★</span>
+              <span class="text-xs text-gray-200">Masque</span>
+            </div>
+            <h3 class="text-white font-medium">Lucky O'Wilds</h3>
+          </div>
+        </div>
+
+        <!-- Normal Game Card -->
+        <div class="game-card">
+          <div class="game-card-overlay"></div>
+          <img src="https://placehold.co/300x200/png" alt="Genesis Deluxe">
+          <div class="game-card-content">
+            <div class="flex items-center gap-1">
+              <span class="text-red-500 text-xs">★</span>
+              <span class="text-xs text-gray-200">Masque</span>
+            </div>
+            <h3 class="text-white font-medium">Genesis Deluxe</h3>
+          </div>
+        </div>
+
+        <!-- Wide Game Card -->
+        <div class="game-card md:col-span-2">
+          <div class="game-card-overlay"></div>
+          <img src="https://placehold.co/600x200/png" alt="Bubble Zone">
+          <div class="game-card-content">
+            <div class="flex items-center gap-1">
+              <span class="text-red-500 text-xs">★</span>
+              <span class="text-xs text-gray-200">Masque</span>
+            </div>
+            <h3 class="text-white font-medium">Bubble Zone</h3>
+          </div>
+        </div>
+
+        <!-- Normal Game Card -->
+        <div class="game-card">
+          <div class="game-card-overlay"></div>
+          <img src="https://placehold.co/300x200/png" alt="Bubble Mouse">
+          <div class="game-card-content">
+            <div class="flex items-center gap-1">
+              <span class="text-red-500 text-xs">★</span>
+              <span class="text-xs text-gray-200">Masque</span>
+            </div>
+            <h3 class="text-white font-medium">Bubble Mouse</h3>
+          </div>
+        </div>
+
+        <!-- Normal Game Card -->
+        <div class="game-card">
+          <div class="game-card-overlay"></div>
+          <img src="https://placehold.co/300x200/png" alt="Bingo">
+          <div class="game-card-content">
+            <div class="flex items-center gap-1">
+              <span class="text-red-500 text-xs">★</span>
+              <span class="text-xs text-gray-200">Masque</span>
+            </div>
+            <h3 class="text-white font-medium">Bingo</h3>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recent Games Section -->
+      <section id="recent-section" class="mb-12">
+        <div class="flex items-center justify-between mb-4">
+          <div>
+            <h2 class="text-xl font-bold">Recent Games</h2>
+            <p class="text-sm text-gray-500">Games you've played recently</p>
+          </div>
+          <a href="#" class="text-sm text-blue-600 hover:text-blue-800 flex items-center gap-1">
+            View all
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"></path></svg>
+          </a>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+          <!-- Game Card -->
+          <div class="game-card">
+            <div class="game-card-overlay"></div>
+            <img src="https://placehold.co/300x200/png" alt="Chess">
+            <div class="game-card-content">
+              <div class="flex items-center gap-1">
+                <span class="text-xs text-gray-200">Yahoo Games</span>
+              </div>
+              <h3 class="text-white font-medium">Chess</h3>
+            </div>
+          </div>
+
+          <!-- Game Card -->
+          <div class="game-card">
+            <div class="game-card-overlay"></div>
+            <img src="https://placehold.co/300x200/png" alt="Backgammon">
+            <div class="game-card-content">
+              <div class="flex items-center gap-1">
+                <span class="text-red-500 text-xs">★</span>
+                <span class="text-xs text-gray-200">Masque</span>
+              </div>
+              <h3 class="text-white font-medium">Backgammon</h3>
+            </div>
+          </div>
+
+          <!-- Game Card -->
+          <div class="game-card">
+            <div class="game-card-overlay"></div>
+            <img src="https://placehold.co/300x200/png" alt="Spades">
+            <div class="game-card-content">
+              <div class="flex items-center gap-1">
+                <span class="text-xs text-gray-200">Yahoo Games</span>
+              </div>
+              <h3 class="text-white font-medium">Spades</h3>
+            </div>
+          </div>
+
+          <!-- Game Card -->
+          <div class="game-card">
+            <div class="game-card-overlay"></div>
+            <img src="https://placehold.co/300x200/png" alt="Dominoes">
+            <div class="game-card-content">
+              <div class="flex items-center gap-1">
+                <span class="text-red-500 text-xs">★</span>
+                <span class="text-xs text-gray-200">Masque</span>
+              </div>
+              <h3 class="text-white font-medium">Dominoes</h3>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Popular Games Section -->
+      <section id="popular-section" class="mb-12">
+        <div class="flex items-center justify-between mb-4">
+          <div>
+            <h2 class="text-xl font-bold">Popular Games</h2>
+            <p class="text-sm text-gray-500">Most played games this week</p>
+          </div>
+          <a href="#" class="text-sm text-blue-600 hover:text-blue-800 flex items-center gap-1">
+            View all
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"></path></svg>
+          </a>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+          <!-- Game Card -->
+          <div class="game-card">
+            <div class="game-card-overlay"></div>
+            <img src="https://placehold.co/300x200/png" alt="Solitaire">
+            <div class="game-card-content">
+              <div class="flex items-center gap-1">
+                <span class="text-xs text-gray-200">Yahoo Games</span>
+              </div>
+              <h3 class="text-white font-medium">Solitaire</h3>
+            </div>
+          </div>
+
+          <!-- Game Card -->
+          <div class="game-card">
+            <div class="game-card-overlay"></div>
+            <img src="https://placehold.co/300x200/png" alt="Mahjong Dimensions">
+            <div class="game-card-content">
+              <div class="flex items-center gap-1">
+                <span class="text-red-500 text-xs">★</span>
+                <span class="text-xs text-gray-200">Masque</span>
+              </div>
+              <h3 class="text-white font-medium">Mahjong Dimensions</h3>
+            </div>
+          </div>
+
+          <!-- Game Card -->
+          <div class="game-card">
+            <div class="game-card-overlay"></div>
+            <img src="https://placehold.co/300x200/png" alt="Blackjack">
+            <div class="game-card-content">
+              <div class="flex items-center gap-1">
+                <span class="text-xs text-gray-200">Yahoo Games</span>
+              </div>
+              <h3 class="text-white font-medium">Blackjack</h3>
+            </div>
+          </div>
+
+          <!-- Game Card -->
+          <div class="game-card">
+            <div class="game-card-overlay"></div>
+            <img src="https://placehold.co/300x200/png" alt="Word Wipe">
+            <div class="game-card-content">
+              <div class="flex items-center gap-1">
+                <span class="text-red-500 text-xs">★</span>
+                <span class="text-xs text-gray-200">Masque</span>
+              </div>
+              <h3 class="text-white font-medium">Word Wipe</h3>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Card Games Section -->
+      <section id="card-section" class="mb-12">
+        <div class="flex items-center justify-between mb-4">
+          <div>
+            <h2 class="text-xl font-bold">Card Games</h2>
+            <p class="text-sm text-gray-500">Classic card games and more</p>
+          </div>
+          <a href="#" class="text-sm text-blue-600 hover:text-blue-800 flex items-center gap-1">
+            View all
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"></path></svg>
+          </a>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+          <!-- Game Cards for Card Games Section -->
+          <div class="game-card">
+            <div class="game-card-overlay"></div>
+            <img src="https://placehold.co/300x200/png" alt="Spider Solitaire">
+            <div class="game-card-content">
+              <div class="flex items-center gap-1">
+                <span class="text-xs text-gray-200">Yahoo Games</span>
+              </div>
+              <h3 class="text-white font-medium">Spider Solitaire</h3>
+            </div>
+          </div>
+          
+          <div class="game-card">
+            <div class="game-card-overlay"></div>
+            <img src="https://placehold.co/300x200/png" alt="Poker">
+            <div class="game-card-content">
+              <div class="flex items-center gap-1">
+                <span class="text-red-500 text-xs">★</span>
+                <span class="text-xs text-gray-200">Masque</span>
+              </div>
+              <h3 class="text-white font-medium">Poker</h3>
+            </div>
+          </div>
+          
+          <div class="game-card">
+            <div class="game-card-overlay"></div>
+            <img src="https://placehold.co/300x200/png" alt="Hearts">
+            <div class="game-card-content">
+              <div class="flex items-center gap-1">
+                <span class="text-xs text-gray-200">Yahoo Games</span>
+              </div>
+              <h3 class="text-white font-medium">Hearts</h3>
+            </div>
+          </div>
+          
+          <div class="game-card">
+            <div class="game-card-overlay"></div>
+            <img src="https://placehold.co/300x200/png" alt="Rummy">
+            <div class="game-card-content">
+              <div class="flex items-center gap-1">
+                <span class="text-red-500 text-xs">★</span>
+                <span class="text-xs text-gray-200">Masque</span>
+              </div>
+              <h3 class="text-white font-medium">Rummy</h3>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Casino Games Section -->
+      <section id="casino-section" class="mb-12">
+        <div class="flex items-center justify-between mb-4">
+          <div>
+            <h2 class="text-xl font-bold">Casino Games</h2>
+            <p class="text-sm text-gray-500">Try your luck</p>
+          </div>
+          <a href="#" class="text-sm text-blue-600 hover:text-blue-800 flex items-center gap-1">
+            View all
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"></path></svg>
+          </a>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+          <div class="game-card">
+            <div class="game-card-overlay"></div>
+            <img src="https://placehold.co/300x200/png" alt="Slots">
+            <div class="game-card-content">
+              <div class="flex items-center gap-1">
+                <span class="text-red-500 text-xs">★</span>
+                <span class="text-xs text-gray-200">Masque</span>
+              </div>
+              <h3 class="text-white font-medium">Slots</h3>
+            </div>
+          </div>
+          
+          <div class="game-card">
+            <div class="game-card-overlay"></div>
+            <img src="https://placehold.co/300x200/png" alt="Roulette">
+            <div class="game-card-content">
+              <div class="flex items-center gap-1">
+                <span class="text-red-500 text-xs">★</span>
+                <span class="text-xs text-gray-200">Masque</span>
+              </div>
+              <h3 class="text-white font-medium">Roulette</h3>
+            </div>
+          </div>
+          
+          <div class="game-card">
+            <div class="game-card-overlay"></div>
+            <img src="https://placehold.co/300x200/png" alt="Baccarat">
+            <div class="game-card-content">
+              <div class="flex items-center gap-1">
+                <span class="text-red-500 text-xs">★</span>
+                <span class="text-xs text-gray-200">Masque</span>
+              </div>
+              <h3 class="text-white font-medium">Baccarat</h3>
+            </div>
+          </div>
+          
+          <div class="game-card">
+            <div class="game-card-overlay"></div>
+            <img src="https://placehold.co/300x200/png" alt="Craps">
+            <div class="game-card-content">
+              <div class="flex items-center gap-1">
+                <span class="text-red-500 text-xs">★</span>
+                <span class="text-xs text-gray-200">Masque</span>
+              </div>
+              <h3 class="text-white font-medium">Craps</h3>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Word Games Section -->
+      <section id="word-section" class="mb-12">
+        <div class="flex items-center justify-between mb-4">
+          <div>
+            <h2 class="text-xl font-bold">Word Games</h2>
+            <p class="text-sm text-gray-500">Test your vocabulary</p>
+          </div>
+          <a href="#" class="text-sm text-blue-600 hover:text-blue-800 flex items-center gap-1">
+            View all
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"></path></svg>
+          </a>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+          <div class="game-card">
+            <div class="game-card-overlay"></div>
+            <img src="https://placehold.co/300x200/png" alt="Crossword">
+            <div class="game-card-content">
+              <div class="flex items-center gap-1">
+                <span class="text-xs text-gray-200">Yahoo Games</span>
+              </div>
+              <h3 class="text-white font-medium">Crossword</h3>
+            </div>
+          </div>
+          
+          <div class="game-card">
+            <div class="game-card-overlay"></div>
+            <img src="https://placehold.co/300x200/png" alt="Word Search">
+            <div class="game-card-content">
+              <div class="flex items-center gap-1">
+                <span class="text-red-500 text-xs">★</span>
+                <span class="text-xs text-gray-200">Masque</span>
+              </div>
+              <h3 class="text-white font-medium">Word Search</h3>
+            </div>
+          </div>
+          
+          <div class="game-card">
+            <div class="game-card-overlay"></div>
+            <img src="https://placehold.co/300x200/png" alt="Hangman">
+            <div class="game-card-content">
+              <div class="flex items-center gap-1">
+                <span class="text-xs text-gray-200">Yahoo Games</span>
+              </div>
+              <h3 class="text-white font-medium">Hangman</h3>
+            </div>
+          </div>
+          
+          <div class="game-card">
+            <div class="game-card-overlay"></div>
+            <img src="https://placehold.co/300x200/png" alt="Scrabble">
+            <div class="game-card-content">
+              <div class="flex items-center gap-1">
+                <span class="text-red-500 text-xs">★</span>
+                <span class="text-xs text-gray-200">Masque</span>
+              </div>
+              <h3 class="text-white font-medium">Scrabble</h3>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Board Games Section -->
+      <section id="board-section" class="mb-12">
+        <div class="flex items-center justify-between mb-4">
+          <div>
+            <h2 class="text-xl font-bold">Board Games</h2>
+            <p class="text-sm text-gray-500">Classic board games</p>
+          </div>
+          <a href="#" class="text-sm text-blue-600 hover:text-blue-800 flex items-center gap-1">
+            View all
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"></path></svg>
+          </a>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+          <div class="game-card">
+            <div class="game-card-overlay"></div>
+            <img src="https://placehold.co/300x200/png" alt="Chess">
+            <div class="game-card-content">
+              <div class="flex items-center gap-1">
+                <span class="text-xs text-gray-200">Yahoo Games</span>
+              </div>
+              <h3 class="text-white font-medium">Chess</h3>
+            </div>
+          </div>
+          
+          <div class="game-card">
+            <div class="game-card-overlay"></div>
+            <img src="https://placehold.co/300x200/png" alt="Checkers">
+            <div class="game-card-content">
+              <div class="flex items-center gap-1">
+                <span class="text-xs text-gray-200">Yahoo Games</span>
+              </div>
+              <h3 class="text-white font-medium">Checkers</h3>
+            </div>
+          </div>
+          
+          <div class="game-card">
+            <div class="game-card-overlay"></div>
+            <img src="https://placehold.co/300x200/png" alt="Backgammon">
+            <div class="game-card-content">
+              <div class="flex items-center gap-1">
+                <span class="text-red-500 text-xs">★</span>
+                <span class="text-xs text-gray-200">Masque</span>
+              </div>
+              <h3 class="text-white font-medium">Backgammon</h3>
+            </div>
+          </div>
+          
+          <div class="game-card">
+            <div class="game-card-overlay"></div>
+            <img src="https://placehold.co/300x200/png" alt="Monopoly">
+            <div class="game-card-content">
+              <div class="flex items-center gap-1">
+                <span class="text-red-500 text-xs">★</span>
+                <span class="text-xs text-gray-200">Masque</span>
+              </div>
+              <h3 class="text-white font-medium">Monopoly</h3>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Puzzle Games Section -->
+      <section id="puzzle-section" class="mb-12">
+        <div class="flex items-center justify-between mb-4">
+          <div>
+            <h2 class="text-xl font-bold">Puzzle Games</h2>
+            <p class="text-sm text-gray-500">Challenge your brain</p>
+          </div>
+          <a href="#" class="text-sm text-blue-600 hover:text-blue-800 flex items-center gap-1">
+            View all
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"></path></svg>
+          </a>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+          <div class="game-card">
+            <div class="game-card-overlay"></div>
+            <img src="https://placehold.co/300x200/png" alt="Sudoku">
+            <div class="game-card-content">
+              <div class="flex items-center gap-1">
+                <span class="text-xs text-gray-200">Yahoo Games</span>
+              </div>
+              <h3 class="text-white font-medium">Sudoku</h3>
+            </div>
+          </div>
+          
+          <div class="game-card">
+            <div class="game-card-overlay"></div>
+            <img src="https://placehold.co/300x200/png" alt="Jigsaw">
+            <div class="game-card-content">
+              <div class="flex items-center gap-1">
+                <span class="text-red-500 text-xs">★</span>
+                <span class="text-xs text-gray-200">Masque</span>
+              </div>
+              <h3 class="text-white font-medium">Jigsaw</h3>
+            </div>
+          </div>
+          
+          <div class="game-card">
+            <div class="game-card-overlay"></div>
+            <img src="https://placehold.co/300x200/png" alt="2048">
+            <div class="game-card-content">
+              <div class="flex items-center gap-1">
+                <span class="text-xs text-gray-200">Yahoo Games</span>
+              </div>
+              <h3 class="text-white font-medium">2048</h3>
+            </div>
+          </div>
+          
+          <div class="game-card">
+            <div class="game-card-overlay"></div>
+            <img src="https://placehold.co/300x200/png" alt="Tetris">
+            <div class="game-card-content">
+              <div class="flex items-center gap-1">
+                <span class="text-red-500 text-xs">★</span>
+                <span class="text-xs text-gray-200">Masque</span>
+              </div>
+              <h3 class="text-white font-medium">Tetris</h3>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- More Games Section -->
+      <section id="more-section" class="mb-12">
+        <div class="flex items-center justify-between mb-4">
+          <div>
+            <h2 class="text-xl font-bold">More Games</h2>
+            <p class="text-sm text-gray-500">Explore other categories</p>
+          </div>
+          <a href="#" class="text-sm text-blue-600 hover:text-blue-800 flex items-center gap-1">
+            View all
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"></path></svg>
+          </a>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+          <div class="game-card">
+            <div class="game-card-overlay"></div>
+            <img src="https://placehold.co/300x200/png" alt="Arcade">
+            <div class="game-card-content">
+              <div class="flex items-center gap-1">
+                <span class="text-xs text-gray-200">Yahoo Games</span>
+              </div>
+              <h3 class="text-white font-medium">Arcade</h3>
+            </div>
+          </div>
+          
+          <div class="game-card">
+            <div class="game-card-overlay"></div>
+            <img src="https://placehold.co/300x200/png" alt="Strategy">
+            <div class="game-card-content">
+              <div class="flex items-center gap-1">
+                <span class="text-red-500 text-xs">★</span>
+                <span class="text-xs text-gray-200">Masque</span>
+              </div>
+              <h3 class="text-white font-medium">Strategy</h3>
+            </div>
+          </div>
+          
+          <div class="game-card">
+            <div class="game-card-overlay"></div>
+            <img src="https://placehold.co/300x200/png" alt="Sports">
+            <div class="game-card-content">
+              <div class="flex items-center gap-1">
+                <span class="text-xs text-gray-200">Yahoo Games</span>
+              </div>
+              <h3 class="text-white font-medium">Sports</h3>
+            </div>
+          </div>
+          
+          <div class="game-card">
+            <div class="game-card-overlay"></div>
+            <img src="https://placehold.co/300x200/png" alt="Action">
+            <div class="game-card-content">
+              <div class="flex items-center gap-1">
+                <span class="text-red-500 text-xs">★</span>
+                <span class="text-xs text-gray-200">Masque</span>
+              </div>
+              <h3 class="text-white font-medium">Action</h3>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Side Navigation - Now on the right side -->
+    <aside class="hidden md:block w-16 lg:w-20 shrink-0 right-side-nav">
+      <nav class="py-4">
+        <ul class="flex flex-col items-center gap-6">
+          <li class="w-full">
+            <a href="#discover-section" class="side-nav-item">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon></svg>
+              <span class="side-nav-label">Discover</span>
+            </a>
+          </li>
+          <li class="w-full">
+            <a href="#recent-section" class="side-nav-item">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+              <span class="side-nav-label">Recent</span>
+            </a>
+          </li>
+          <li class="w-full">
+            <a href="#popular-section" class="side-nav-item">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"></path></svg>
+              <span class="side-nav-label">Popular</span>
+            </a>
+          </li>
+          <li class="w-full">
+            <a href="#card-section" class="side-nav-item">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"></rect><path d="M7 7h.01"></path><path d="M17 7h.01"></path><path d="M7 17h.01"></path><path d="M17 17h.01"></path></svg>
+              <span class="side-nav-label">Card</span>
+            </a>
+          </li>
+          <li class="w-full">
+            <a href="#casino-section" class="side-nav-item">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="8" height="8" x="3" y="3" rx="2"></rect><rect width="8" height="8" x="13" y="3" rx="2"></rect><rect width="8" height="8" x="3" y="13" rx="2"></rect><rect width="8" height="8" x="13" y="13" rx="2"></rect></svg>
+              <span class="side-nav-label">Casino</span>
+            </a>
+          </li>
+          <li class="w-full">
+            <a href="#word-section" class="side-nav-item">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+              <span class="side-nav-label">Word</span>
+            </a>
+          </li>
+          <li class="w-full">
+            <a href="#board-section" class="side-nav-item">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 7.5v9l3 2V9.5l-3-2Z"></path><path d="M12 15.5v5.5l7-4v-5.5"></path><path d="M5 12.5v5.5l7 4v-5.5"></path><path d="M12 4.5 5 8.5l7 4 7-4-7-4Z"></path></svg>
+              <span class="side-nav-label">Board</span>
+            </a>
+          </li>
+          <li class="w-full">
+            <a href="#puzzle-section" class="side-nav-item">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="5" height="5" x="3" y="3" rx="1"></rect><rect width="5" height="5" x="16" y="3" rx="1"></rect><rect width="5" height="5" x="3" y="16" rx="1"></rect><path d="M21 16h-3a2 2 0 0 0-2 2v3"></path><path d="M21 21v.01"></path><path d="M12 7v3a2 2 0 0 1-2 2H7"></path><path d="M3 12h.01"></path><path d="M12 3h.01"></path><path d="M12 16v.01"></path><path d="M16 12h1"></path><path d="M21 12v.01"></path></svg>
+              <span class="side-nav-label">Puzzle</span>
+            </a>
+          </li>
+          <li class="w-full">
+            <a href="#more-section" class="side-nav-item">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="5" cy="12" r="1"></circle></svg>
+              <span class="side-nav-label">More</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </aside>
+  </div>
+</body>
+</html>
+
