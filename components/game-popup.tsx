@@ -1,6 +1,5 @@
 "use client"
 
-import { useState } from "react"
 import { X } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
@@ -8,13 +7,10 @@ interface GamePopupProps {
   title: string
   description: string
   image: string
+  onClose: () => void
 }
 
-export default function GamePopup({ title, description, image }: GamePopupProps) {
-  const [isOpen, setIsOpen] = useState(true)
-
-  if (!isOpen) return null
-
+export default function GamePopup({ title, description, image, onClose }: GamePopupProps) {
   return (
     <div className="fixed bottom-4 right-4 z-50 w-full max-w-md bg-white rounded-lg shadow-lg overflow-hidden border border-gray-200">
       <div className="flex justify-between items-center p-4 border-b border-gray-200">
@@ -22,7 +18,7 @@ export default function GamePopup({ title, description, image }: GamePopupProps)
         <Button
           variant="ghost"
           size="icon"
-          onClick={() => setIsOpen(false)}
+          onClick={onClose}
           className="h-6 w-6 text-gray-500 hover:text-gray-900"
         >
           <X className="h-4 w-4" />

@@ -6,15 +6,18 @@ interface Game {
   title: string
   image: string
   provider: string
+  size?: "normal" | "wide" | "large"
+  description?: string
 }
 
 interface GameSectionProps {
   title: string
   description: string
   games: Game[]
+  onGameSelect: (game: Game) => void
 }
 
-export default function GameSection({ title, description, games }: GameSectionProps) {
+export default function GameSection({ title, description, games, onGameSelect }: GameSectionProps) {
   return (
     <section className="mb-12">
       <div className="flex items-center justify-between mb-4">
@@ -29,8 +32,8 @@ export default function GameSection({ title, description, games }: GameSectionPr
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-        {games.map((game, index) => (
-          <GameCard key={index} title={game.title} image={game.image} provider={game.provider} />
+        {games.map((game) => (
+          <GameCard key={game.title} {...game} onSelect={onGameSelect} />
         ))}
       </div>
     </section>

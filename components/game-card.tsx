@@ -1,23 +1,30 @@
-import Link from "next/link"
-
-interface GameCardProps {
+interface Game {
   title: string
   image: string
   provider: string
   size?: "normal" | "wide" | "large"
+  description?: string
 }
 
-export default function GameCard({ title, image, provider, size = "normal" }: GameCardProps) {
+interface GameCardProps extends Game {
+  onSelect: (game: Game) => void
+}
+
+export default function GameCard({ title, image, provider, size = "normal", description, onSelect }: GameCardProps) {
   const sizeClasses = {
     normal: "col-span-1 row-span-1",
     wide: "col-span-1 md:col-span-2 row-span-1",
     large: "col-span-1 md:col-span-1 row-span-2",
   }
 
+  const handleClick = () => {
+    onSelect({ title, image, provider, size, description })
+  }
+
   return (
-    <Link
-      href="#"
-      className={`${sizeClasses[size]} relative group overflow-hidden rounded-xl shadow-md border border-gray-200`}
+    <div
+      onClick={handleClick}
+      className={`${sizeClasses[size]} relative group overflow-hidden rounded-xl shadow-md border border-gray-200 cursor-pointer`}
     >
       <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-50 group-hover:opacity-70 transition-opacity z-10" />
 
@@ -34,7 +41,7 @@ export default function GameCard({ title, image, provider, size = "normal" }: Ga
         </div>
         <h3 className="text-white font-medium">{title}</h3>
       </div>
-    </Link>
+    </div>
   )
 }
 

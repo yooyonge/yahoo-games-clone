@@ -1,0 +1,36 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# Dependencies
+/node_modules
+/.pnpm
+/pnpm-lock.yaml
+
+# Build outputs
+/.next/
+/out/
+/build/
+
+# Static exports
+/export
+
+# Miscellaneous
+/.env.local
+/.env*.local
+/npm-debug.log*
+/yarn-debug.log*
+/yarn-error.log*
+/pnpm-debug.log*
+/coverage/
+
+# Next.js specific
+/.next/
+/out/
+
+# Editor directories and files
+.vscode
+.idea
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?

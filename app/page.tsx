@@ -1,3 +1,5 @@
+"use client"
+
 import Link from "next/link"
 import { Search, Mail } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -5,8 +7,78 @@ import GameCard from "@/components/game-card"
 import SideNavigation from "@/components/side-navigation"
 import GamePopup from "@/components/game-popup"
 import GameSection from "@/components/game-section"
+import { useState } from "react"
+
+interface Game {
+  title: string
+  image: string
+  provider: string
+  size?: "normal" | "wide" | "large"
+  description?: string
+}
+
+const featuredGames: Game[] = [
+  {
+    title: "Bird Word Mahjong",
+    image: "/placeholder.svg?height=200&width=300",
+    provider: "Masque",
+    size: "large",
+    description: "Match tiles in a bamboo forest setting.",
+  },
+  {
+    title: "Lucky O'Wilds",
+    image: "/placeholder.svg?height=200&width=300",
+    provider: "Masque",
+    size: "large",
+    description: "Spin the reels and find your pot of gold.",
+  },
+  {
+    title: "Genesis Deluxe",
+    image: "/placeholder.svg?height=150&width=200",
+    provider: "Masque",
+    description: "A classic casino game.",
+  },
+  {
+    title: "Bubble Zone",
+    image: "/placeholder.svg?height=150&width=300",
+    provider: "Masque",
+    size: "wide",
+    description: "Pop bubbles to clear the board.",
+  },
+  {
+    title: "Bubble Mouse",
+    image: "/placeholder.svg?height=150&width=200",
+    provider: "Masque",
+    description: "A fun bubble shooter game.",
+  },
+  {
+    title: "Bingo",
+    image: "/placeholder.svg?height=150&width=200",
+    provider: "Masque",
+    description: "Classic bingo fun.",
+  },
+]
+
+const popularGames: Game[] = [
+  { title: "Solitaire", image: "/placeholder.svg?height=150&width=200", provider: "Yahoo Games", description: "The classic card game." },
+  { title: "Mahjong Dimensions", image: "/placeholder.svg?height=150&width=200", provider: "Masque", description: "A 3D mahjong game." },
+  { title: "Blackjack", image: "/placeholder.svg?height=150&width=200", provider: "Yahoo Games", description: "Try to beat the dealer." },
+  { title: "Word Wipe", image: "/placeholder.svg?height=150&width=200", provider: "Masque", description: "Find words to clear the board." },
+]
+
+// ... and so on for other game sections
 
 export default function HomePage() {
+  const [selectedGame, setSelectedGame] = useState<Game | null>(null)
+
+  const handleGameSelect = (game: Game) => {
+    setSelectedGame(game)
+  }
+
+  const handleClosePopup = () => {
+    setSelectedGame(null)
+  }
+
   return (
     <div className="min-h-screen bg-white text-gray-900">
       {/* Header */}
@@ -91,34 +163,17 @@ export default function HomePage() {
 
           {/* Featured Games Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-12">
-            <GameCard
-              title="Bird Word Mahjong"
-              image="/placeholder.svg?height=200&width=300"
-              provider="Masque"
-              size="large"
-            />
-            <GameCard
-              title="Lucky O'Wilds"
-              image="/placeholder.svg?height=200&width=300"
-              provider="Masque"
-              size="large"
-            />
-            <GameCard title="Genesis Deluxe" image="/placeholder.svg?height=150&width=200" provider="Masque" />
-            <GameCard title="Bubble Zone" image="/placeholder.svg?height=150&width=300" provider="Masque" size="wide" />
-            <GameCard title="Bubble Mouse" image="/placeholder.svg?height=150&width=200" provider="Masque" />
-            <GameCard title="Bingo" image="/placeholder.svg?height=150&width=200" provider="Masque" />
+            {featuredGames.map((game) => (
+              <GameCard key={game.title} {...game} onSelect={handleGameSelect} />
+            ))}
           </div>
 
           {/* Popular Games Section */}
           <GameSection
             title="Popular Games"
             description="Most played games this week"
-            games={[
-              { title: "Solitaire", image: "/placeholder.svg?height=150&width=200", provider: "Yahoo Games" },
-              { title: "Mahjong Dimensions", image: "/placeholder.svg?height=150&width=200", provider: "Masque" },
-              { title: "Blackjack", image: "/placeholder.svg?height=150&width=200", provider: "Yahoo Games" },
-              { title: "Word Wipe", image: "/placeholder.svg?height=150&width=200", provider: "Masque" },
-            ]}
+            games={popularGames}
+            onGameSelect={handleGameSelect}
           />
 
           {/* Card Games Section */}
@@ -126,11 +181,12 @@ export default function HomePage() {
             title="Card Games"
             description="Classic card games and more"
             games={[
-              { title: "Spider Solitaire", image: "/placeholder.svg?height=150&width=200", provider: "Yahoo Games" },
-              { title: "Poker", image: "/placeholder.svg?height=150&width=200", provider: "Masque" },
-              { title: "Hearts", image: "/placeholder.svg?height=150&width=200", provider: "Yahoo Games" },
-              { title: "Rummy", image: "/placeholder.svg?height=150&width=200", provider: "Masque" },
+              { title: "Spider Solitaire", image: "/placeholder.svg?height=150&width=200", provider: "Yahoo Games", description: "A challenging solitaire variant." },
+              { title: "Poker", image: "/placeholder.svg?height=150&width=200", provider: "Masque", description: "Texas Hold'em and more." },
+              { title: "Hearts", image: "/placeholder.svg?height=150&width=200", provider: "Yahoo Games", description: "Avoid taking hearts!" },
+              { title: "Rummy", image: "/placeholder.svg?height=150&width=200", provider: "Masque", description: "Form melds and go out." },
             ]}
+            onGameSelect={handleGameSelect}
           />
 
           {/* Puzzle Games Section */}
@@ -138,11 +194,12 @@ export default function HomePage() {
             title="Puzzle Games"
             description="Challenge your brain"
             games={[
-              { title: "Crossword", image: "/placeholder.svg?height=150&width=200", provider: "Yahoo Games" },
-              { title: "Sudoku", image: "/placeholder.svg?height=150&width=200", provider: "Yahoo Games" },
-              { title: "Word Search", image: "/placeholder.svg?height=150&width=200", provider: "Masque" },
-              { title: "2048", image: "/placeholder.svg?height=150&width=200", provider: "Yahoo Games" },
+              { title: "Crossword", image: "/placeholder.svg?height=150&width=200", provider: "Yahoo Games", description: "Daily crossword puzzles." },
+              { title: "Sudoku", image: "/placeholder.svg?height=150&width=200", provider: "Yahoo Games", description: "The classic number puzzle." },
+              { title: "Word Search", image: "/placeholder.svg?height=150&width=200", provider: "Masque", description: "Find hidden words." },
+              { title: "2048", image: "/placeholder.svg?height=150&width=200", provider: "Yahoo Games", description: "Combine tiles to reach 2048." },
             ]}
+            onGameSelect={handleGameSelect}
           />
 
           {/* Casino Games Section */}
@@ -150,11 +207,12 @@ export default function HomePage() {
             title="Casino Games"
             description="Try your luck"
             games={[
-              { title: "Slots", image: "/placeholder.svg?height=150&width=200", provider: "Masque" },
-              { title: "Roulette", image: "/placeholder.svg?height=150&width=200", provider: "Masque" },
-              { title: "Baccarat", image: "/placeholder.svg?height=150&width=200", provider: "Masque" },
-              { title: "Craps", image: "/placeholder.svg?height=150&width=200", provider: "Masque" },
+              { title: "Slots", image: "/placeholder.svg?height=150&width=200", provider: "Masque", description: "Spin the reels to win." },
+              { title: "Roulette", image: "/placeholder.svg?height=150&width=200", provider: "Masque", description: "Bet on your lucky numbers." },
+              { title: "Baccarat", image: "/placeholder.svg?height=150&width=200", provider: "Masque", description: "A simple and elegant card game." },
+              { title: "Craps", image: "/placeholder.svg?height=150&width=200", provider: "Masque", description: "Roll the dice and try to win." },
             ]}
+            onGameSelect={handleGameSelect}
           />
 
           {/* Arcade Games Section */}
@@ -162,21 +220,25 @@ export default function HomePage() {
             title="Arcade Games"
             description="Classic arcade action"
             games={[
-              { title: "Snake", image: "/placeholder.svg?height=150&width=200", provider: "Yahoo Games" },
-              { title: "Tetris", image: "/placeholder.svg?height=150&width=200", provider: "Yahoo Games" },
-              { title: "Pac-Man", image: "/placeholder.svg?height=150&width=200", provider: "Masque" },
-              { title: "Space Invaders", image: "/placeholder.svg?height=150&width=200", provider: "Masque" },
+              { title: "Snake", image: "/placeholder.svg?height=150&width=200", provider: "Yahoo Games", description: "Eat apples and grow your snake." },
+              { title: "Tetris", image: "/placeholder.svg?height=150&width=200", provider: "Yahoo Games", description: "The classic falling block puzzle." },
+              { title: "Pac-Man", image: "/placeholder.svg?height=150&width=200", provider: "Masque", description: "Eat pellets and avoid ghosts." },
+              { title: "Space Invaders", image: "/placeholder.svg?height=150&width=200", provider: "Masque", description: "Shoot down alien invaders." },
             ]}
+            onGameSelect={handleGameSelect}
           />
         </main>
       </div>
 
       {/* Game Popup - This would be conditionally rendered */}
-      <GamePopup
-        title="Play Mahjong"
-        description="Match tiles in a bamboo forest setting."
-        image="/placeholder.svg?height=200&width=300"
-      />
+      {selectedGame && (
+        <GamePopup
+          title={`Play ${selectedGame.title}`}
+          description={selectedGame.description || ""}
+          image={selectedGame.image}
+          onClose={handleClosePopup}
+        />
+      )}
     </div>
   )
 }
